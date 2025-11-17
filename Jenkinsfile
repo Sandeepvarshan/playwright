@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/Sandeepvarshan/playwright.git'
+                url: 'https://github.com/Sandeepvarshan/playwright.git'
             }
         }
 
@@ -22,7 +22,6 @@ pipeline {
 
         stage('Install Playwright Browsers') {
             steps {
-                sh 'npx playwright install-deps'
                 sh 'npx playwright install'
             }
         }
