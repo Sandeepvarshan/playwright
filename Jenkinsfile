@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 git branch: 'main',
-                    url: 'YOUR_GITHUB_REPO_URL'
+                    url: 'https://github.com/Sandeepvarshan/playwright.git'
             }
         }
 
