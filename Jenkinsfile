@@ -1,40 +1,42 @@
 pipeline {
-  agent any
+    agent any
 
-  tools {
-    nodejs 'Node18'
-  }
-
-  stages {
-
-    stage('Checkout') {
-      steps {
-        checkout scm
-      }
+    tools {
+        nodejs "node18"
     }
 
-    stage('Install Dependencies') {
-      steps {
-        sh 'npm install'
-      }
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main',
+                    url: 'YOUR_GITHUB_REPO_URL'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Install Playwright Browsers') {
+            steps {
+                sh 'npx playwright install --with-deps'
+            }
+        }
+
+        stage('Run Playwright Tests') {
+            steps {
+                sh 'npx playwright test --reporter=html'
+            }
+        }
     }
 
-    stage('Install Playwright Browsers') {
-      steps {
-        sh 'npx playwright install'
-      }
+    post {
+        always {
+            archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
+        }
     }
-
-    stage('Run Tests') {
-      steps {
-        sh 'npx playwright test'
-      }
-    }
-  }
-
-  post {
-    always {
-      archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
-    }
-  }
 }
+
